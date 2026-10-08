@@ -20,7 +20,9 @@ module Blazer
     end
 
     def editable?(user)
-      !persisted? || (name.present? && name.first != "*" && name.first != "#") || user == try(:creator)
+      return true unless persisted?
+      return user.can_edit_blazer_query?(self) if user.respond_to?(:can_edit_blazer_query?)
+      (name.present? && name.first != "*" && name.first != "#") || user == try(:creator)
     end
 
     def variables

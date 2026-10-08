@@ -3,6 +3,7 @@ module Blazer
     before_action :set_dashboard, only: [:show, :edit, :update, :destroy, :refresh]
     before_action :authorize_blazer_dashboard_access!, only: [:show, :edit, :update, :destroy, :refresh]
     before_action :authorize_blazer_create!, only: [:new, :create, :edit, :update, :destroy]
+    before_action :authorize_blazer_dashboard_edit!, only: [:edit, :update, :destroy]
 
     def new
       @dashboard = Blazer::Dashboard.new

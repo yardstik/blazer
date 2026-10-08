@@ -139,6 +139,18 @@ module Blazer
     end
     helper_method :can_access_blazer_dashboard?
 
+    def can_edit_blazer_dashboard?(dashboard)
+      return can_create_blazer_queries? unless blazer_user.respond_to?(:can_edit_blazer_dashboard?)
+      blazer_user.can_edit_blazer_dashboard?(dashboard)
+    end
+    helper_method :can_edit_blazer_dashboard?
+
+    def can_edit_blazer_check?(check)
+      return can_create_blazer_queries? unless blazer_user.respond_to?(:can_edit_blazer_check?)
+      blazer_user.can_edit_blazer_check?(check)
+    end
+    helper_method :can_edit_blazer_check?
+
     def authorize_blazer_create!
       render_forbidden unless can_create_blazer_queries?
     end
@@ -149,6 +161,14 @@ module Blazer
 
     def authorize_blazer_dashboard_access!
       render_forbidden unless can_access_blazer_dashboard?(@dashboard)
+    end
+
+    def authorize_blazer_dashboard_edit!
+      render_forbidden unless can_edit_blazer_dashboard?(@dashboard)
+    end
+
+    def authorize_blazer_check_edit!
+      render_forbidden unless can_edit_blazer_check?(@check)
     end
 
     def render_forbidden
